@@ -1,0 +1,1 @@
+初始化项目安装react-native-camera会遇到各种版本问题，逐个更改
