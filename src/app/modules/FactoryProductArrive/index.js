@@ -1,6 +1,6 @@
 // import React from 'react';
 // import {List, Icon, Button, InputItem } from 'antd-mobile';
-// import NavBars from '../../components/NavBars';
+// import NavBar from '../../components/NavBar';
 // import AppContainer from '../../modules/AppContainer';
 // import './style.css';
 
@@ -27,7 +27,7 @@
     
 //         return (
 //             <div className="productArrive-container">
-//                 <NavBars title="工厂成品到货" />
+//                 <NavBar title="工厂成品到货" />
 //                 <List className="ASNScan-result">
 //                     <Item multipleLine extra={ASNScanResult}>
 //                         ASN扫码结果

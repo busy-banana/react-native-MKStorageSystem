@@ -12,6 +12,17 @@ const RootStack = createStackNavigator({
     screen: ScanPage,
   }}, {
     initialRouteName: 'ScanPage',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#fc0',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        flex: 1,
+        textAlign:'center',
+      },
+    }
 });
 
 export default class App extends React.Component {
