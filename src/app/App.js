@@ -16,7 +16,7 @@ const RootStack = createStackNavigator({
       headerStyle: {
         backgroundColor: '#fc0',
       },
-      headerTintColor: '#fff',
+      headerTintColor: '#d40511',
       headerTitleStyle: {
         fontWeight: 'bold',
         flex: 1,

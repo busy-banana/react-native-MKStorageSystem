@@ -31,14 +31,7 @@ export default class ScanPage extends AppContainer {
     }
 
     static navigationOptions = {
-        header: null
-        // headerRight: (
-        //     <Button
-        //         onPress={() => alert('This is a button!')}
-        //         title="Info"
-        //         color="#abc"
-        //     />
-        // ),
+        title: '扫一扫',
     };
 
     componentWillMount() {
@@ -55,36 +48,21 @@ export default class ScanPage extends AppContainer {
     }
     
     render() {
-        const leftButton = (
-            <Icon.Button
-                name="chevron-left"
-                backgroundColor="transparent"
-                size={34}
-                onPress={this.goBack}
-                marginTop={10}
-                paddingLeft={10}
-                opacity={0.5}
-            >
-            </Icon.Button>
-        );
-        const PendingView = (
-            <View
-                style={styles.pendingViewStyle}
-            >
-                <Text>准备中，请确认已开启摄像头权限。</Text>
-            </View>
-        );
+        // const PendingView = (
+        //     <View
+        //         style={styles.pendingViewStyle}
+        //     >
+        //         <Text>准备中，请确认已开启摄像头权限。</Text>
+        //     </View>
+        // );
 
         return (
             <View style={styles.container}>
-                {leftButton}
                 <RNCamera
                     ref={ref => {
                         this.camera = ref;
                     }}
                     style={styles.RNCamera}
-                    // type={Camera.Constants.Type.back}
-                    // torchMode={this.state.flashStatus ? 'on' : 'off'}
                     flashMode={this.state.flashStatus ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
                     // barCodeTypes={[RNCamera.Constants.BarCodeType.ean13]}
                     onBarCodeRead={this.onBarCodeReadCallback}
@@ -95,36 +73,29 @@ export default class ScanPage extends AppContainer {
                     permissionDialogTitle={'提示'}
                     permissionDialogMessage={'请开启摄像头权限'}
                 >
-                {({ camera, status }) => {
-                    if (status !== 'READY') return PendingView;
-                    return (
-                        <View style={styles.RNCamera}>
-                            <View style={styles.topContainer}></View>
-                            <View style={{flexDirection: 'row'}}>
-                                <View style={styles.boxBetweenRectangle}></View>
+                        <View style={styles.topContainer}></View>
+                        <View style={{flexDirection: 'row'}}>
+                            <View style={styles.boxBetweenRectangle}></View>
 
-                                <View style={styles.rectangleContainer}>
-                                    <View style={styles.rectangleTopLeft}></View>
-                                    <View style={styles.rectangleTopRight}></View>
-                                    <View style={styles.rectangleBottomLeft}></View>
-                                    <View style={styles.rectangleBottomRight}></View>
-                                </View>
-                                <View style={styles.boxBetweenRectangle}></View>
+                            <View style={styles.rectangleContainer}>
+                                <View style={styles.rectangleTopLeft}></View>
+                                <View style={styles.rectangleTopRight}></View>
+                                <View style={styles.rectangleBottomLeft}></View>
+                                <View style={styles.rectangleBottomRight}></View>
                             </View>
-
-                            <View style={styles.bottomContainer}>
-                                <TouchableOpacity onPress={this.changeFlashStatus}>
-                                    <View style={styles.flash}>
-                                        <Icon name="flashlight" size={30} color='#fff'></Icon>
-                                        <Text style={styles.text}>
-                                            开灯/关灯
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
+                            <View style={styles.boxBetweenRectangle}></View>
                         </View>
-                    );
-                }}
+
+                        <View style={styles.bottomContainer}>
+                            <TouchableOpacity onPress={this.changeFlashStatus}>
+                                <View style={styles.flash}>
+                                    <Icon name="flashlight" size={30} color='#fff'></Icon>
+                                    <Text style={styles.text}>
+                                        手电筒
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
                 </RNCamera>
             </View>
         )
@@ -138,24 +109,24 @@ const styles = StyleSheet.create({
     },
     RNCamera: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         width: width,
         height: height,
     },
     topContainer: {
         width: width,
-        height: (height-width+110)/2,
+        height: 80,
         backgroundColor:'rgba(0,0,0,0.5)',
     },
     boxBetweenRectangle: {
         backgroundColor:'rgba(0,0,0,0.5)',
         width: 55,
-        height: width-110,
+        height: width-60,
     },
     rectangleContainer: {
-        width: width-110,
-        height: width-110,
+        width: width-60,
+        height: width-60,
         backgroundColor: 'transparent',
     },
     rectangleTopLeft: {
@@ -197,7 +168,7 @@ const styles = StyleSheet.create({
     },
     bottomContainer: {
         width: width,
-        height: (height-width+100)/2,
+        height: height-width+60-80,
         backgroundColor:'rgba(0,0,0,0.5)',
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -218,4 +189,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    
 });
