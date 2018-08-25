@@ -5,14 +5,17 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
+    Image,
 } from 'react-native';
 import AppContainer from '../../modules/AppContainer';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
 import {
     ListItem,
     Button,
 } from 'react-native-elements';
 import Drawer from 'react-native-drawer';
+import DHLLogo from '../../public/dhlLogo.png';
 
 export default class Home extends AppContainer {
     constructor(props) {
@@ -41,8 +44,8 @@ export default class Home extends AppContainer {
 
     //获取初始化数据
     getInitData() {
-        const params = this.getParam();
-        this.data.userName = params.userName || '';
+        const params = this.getParam() || {};
+        this.data.userName = params.userName || 'test';
     }
 
     pressListCallback(path) {
@@ -64,7 +67,7 @@ export default class Home extends AppContainer {
     };
 
     render() {
-        const list = [
+        const homeList = [
             {
                 title: '工厂成品到货',
                 forwardPath: 'ScanPage',
@@ -86,11 +89,58 @@ export default class Home extends AppContainer {
                 forwardPath: 'ScanPage',
             },
         ];
+        //主页列表
+        const homeListDOM = homeList.map((item, i) => (
+            <ListItem
+                key={item.title}
+                title={item.title}
+                chevron
+                onPress={() => this.pressListCallback(item.forwardPath)}
+                containerStyle={styles.containerStyle}
+                contentContainerStyle={styles.contentContainerStyle}
+            />
+        ));
+        const drawerList = [
+            {
+                title: '设置',
+                forwardPath: '',
+                leftIcon: <Feather name='settings' size={18} />,
+            },
+            {
+                title: '个人信息',
+                forwardPath: '',
+                leftIcon: <Feather name='user' size={18} />,
+            },
+            {
+                title: '退出登录',
+                forwardPath: '',
+                leftIcon: <Feather name='log-out' size={18} />,
+            }
+        ];
+        //左侧抽屉列表
+        const drawerListDOM = drawerList.map((item, i) => (
+            <ListItem
+                key={item.title}
+                title={item.title}
+                onPress={() => this.pressListCallback(item.forwardPath)}
+                containerStyle={styles.containerStyle}
+                contentContainerStyle={styles.contentContainerStyle}
+                leftIcon={item.leftIcon}
+            />
+        ));
         const drawerPanel = (
-            <View>
+            <View style={styles.drawerPanel}>
+                <View style={{height: 160,backgroundColor: '#fc0'}}>
+                <Image
+                    source={DHLLogo}
+                    style={styles.DHLLogo}
+                /></View>
+                
                 <Text>{this.data.userName}</Text>
+                {drawerListDOM}
             </View>
         );
+
         return (
             <View style={styles.container}>
             <Drawer
@@ -114,18 +164,7 @@ export default class Home extends AppContainer {
 
                 <View style={styles.listContainer}>
                     <Text style={styles.subTitleText}>请选择收货入库流程</Text>
-                        {
-                            list.map((item, i) => (
-                                <ListItem
-                                    key={i}
-                                    title={item.title}
-                                    chevron
-                                    onPress={() => this.pressListCallback(item.forwardPath)}
-                                    containerStyle={styles.containerStyle}
-                                    contentContainerStyle={styles.contentContainerStyle}
-                                />
-                            ))
-                        }
+                    {homeListDOM}
                 </View>
                 </Drawer>
             </View>
@@ -168,5 +207,13 @@ const styles = StyleSheet.create({
     },
     drawerStyles: {
 
-    }
+    },
+    drawerPanel: {
+        flex:1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
+    DHLLogo: {
+        marginBottom: 50,
+    },
 });
