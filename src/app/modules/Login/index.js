@@ -53,7 +53,10 @@ export default class Login extends AppContainer {
         } else if (this.state.password != '123456') {
             this.showToast('密码错误');            
         } else {
-            this.forward('Home');
+            this.forward('Home',
+                {
+                    userName: this.state.userName
+                });
         }
     }
 
@@ -125,6 +128,8 @@ export default class Login extends AppContainer {
                         buttonStyle={styles.loginButtonStyle}
                     />
                 </View>
+                {/* <Text>v1.0.0</Text>
+                <Text>Copyright © 2018</Text> */}
             </View>
         )
     }

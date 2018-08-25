@@ -4,21 +4,28 @@ import {
     Text,
     StyleSheet,
     Dimensions,
+    TouchableOpacity,
 } from 'react-native';
 import AppContainer from '../../modules/AppContainer';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     ListItem,
     Button,
 } from 'react-native-elements';
+import Drawer from 'react-native-drawer';
 
 export default class Home extends AppContainer {
     constructor(props) {
         super(props);
 
+        this.data = {};
         this.state = {
         };
         
         ['pressListCallback',
+            'viewUserInfo',
+            'openControlPanel',
+            'closeControlPanel',
         ].forEach((method) => {
             this[method] = this[method].bind(this);
         });
@@ -28,9 +35,33 @@ export default class Home extends AppContainer {
         header:null,
     };
 
+    componentWillMount() {
+        this.getInitData();
+    }
+
+    //获取初始化数据
+    getInitData() {
+        const params = this.getParam();
+        this.data.userName = params.userName || '';
+    }
+
     pressListCallback(path) {
         this.forward(path);
     }
+
+    viewUserInfo() {
+        
+    }
+
+    //关闭左侧抽屉
+    closeControlPanel() {
+        this._drawer.close()
+    };
+    
+    //打开左侧抽屉
+    openControlPanel() {
+        this._drawer.open()
+    };
 
     render() {
         const list = [
@@ -55,10 +86,30 @@ export default class Home extends AppContainer {
                 forwardPath: 'ScanPage',
             },
         ];
+        const drawerPanel = (
+            <View>
+                <Text>{this.data.userName}</Text>
+            </View>
+        );
         return (
             <View style={styles.container}>
+            <Drawer
+                ref={(ref) => this._drawer = ref}
+                type="static"
+                content={drawerPanel}
+                openDrawerOffset={0.3}
+                tapToClose={true}
+                styles={styles.drawerStyles}
+                tweenHandler={(ratio) => ({
+                    main: { opacity:(2-ratio)/2 }
+                })}
+            >
                 <View style={styles.titleContainer}>
-                    <Text style={{fontSize: 28,color: '#d40511'}}>RFID收货管理系统</Text>
+                <TouchableOpacity onPress={this.openControlPanel}>
+                    <Icon name="user" color="#515151" size={22}/>
+                </TouchableOpacity>
+                    <Text style={{fontSize: 22,color: '#d40511'}}>RFID收货管理系统</Text>
+                    <Text></Text>
                 </View>
 
                 <View style={styles.listContainer}>
@@ -76,6 +127,7 @@ export default class Home extends AppContainer {
                             ))
                         }
                 </View>
+                </Drawer>
             </View>
         )
     }
@@ -88,9 +140,10 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         backgroundColor: '#fc0',
-        height: 100,
-        justifyContent: 'center',
+        height: 60,
+        flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-around',
     },
     listContainer: {
         marginTop: 60
@@ -112,5 +165,8 @@ const styles = StyleSheet.create({
         borderBottomColor: '#d3d3d3',
         borderBottomWidth: 1,
         borderStyle:'solid',
+    },
+    drawerStyles: {
+
     }
 });

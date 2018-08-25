@@ -43,6 +43,7 @@ export default class AppContainer extends React.Component {
      * Object
      */
     getParam() {
-        this.props.navigation.state.params();
+        const params = this.props.navigation.state.params;
+        return params;
     }
 }
