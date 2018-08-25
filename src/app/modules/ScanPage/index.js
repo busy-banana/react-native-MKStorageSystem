@@ -7,7 +7,6 @@ import {
     View,
     Text,
     TouchableOpacity,
-    Button,
     StyleSheet,
     Dimensions,
 } from 'react-native';
@@ -35,7 +34,6 @@ export default class ScanPage extends AppContainer {
     };
 
     componentWillMount() {
-        this.showToast('123')
     }
 
     onBarCodeReadCallback(result) {

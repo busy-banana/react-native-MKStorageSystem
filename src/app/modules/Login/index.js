@@ -2,11 +2,9 @@ import React from 'react';
 import {
     View,
     Text,
-    TouchableOpacity,
     StyleSheet,
     Image,
     Dimensions,
-    ImageBackground,
     findNodeHandle,
 } from 'react-native';
 import AppContainer from '../../modules/AppContainer';
@@ -46,20 +44,17 @@ export default class Login extends AppContainer {
     };
 
     clickLoginBtn() {
-        // if (!this.state.userName) {
-        //     this.showToast('用户名不能为空');
-        // } else if (!this.state.password) {
-        //     this.showToast('密码不能为空');
-        // } else if (this.state.userName != 'admin') {
-        //     this.showToast('用户名不存在');
-        // } else if (this.state.password != '123456') {
-        //     this.showToast('密码错误');            
-        // } else {
-        //     this.forward('home');
-        // }
-
-        this.forward('home');
-
+        if (!this.state.userName) {
+            this.showToast('用户名不能为空');
+        } else if (!this.state.password) {
+            this.showToast('密码不能为空');
+        } else if (this.state.userName != 'admin') {
+            this.showToast('用户名不存在');
+        } else if (this.state.password != '123456') {
+            this.showToast('密码错误');            
+        } else {
+            this.forward('Home');
+        }
     }
 
     onChangePwd(value) {
@@ -71,8 +66,12 @@ export default class Login extends AppContainer {
 
     onChangeUserName(value) {
         const userName = value;
+        this.setState({
+            userName
+        });
     }
 
+    //背景图加载完成获取dom节点添加高斯模糊效果
     imageLoaded() {
         this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
     }
@@ -110,6 +109,7 @@ export default class Login extends AppContainer {
                     />
                     <Input
                         placeholder='请输入密码'
+                        onChangeText={this.onChangePwd}
                         containerStyle={styles.containerStyle}
                         inputStyle={styles.inputStyle}
                         selectionColor={'#d40511'}

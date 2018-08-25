@@ -20,6 +20,7 @@ export default class AppContainer extends React.Component {
 
     //页面跳转-前进
     forward(path, params) {
+        debugger
         let pa = {};
         if (params && Object.keys(params).length != 0) {
             Object.assign(pa, params);
