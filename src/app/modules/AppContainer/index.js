@@ -15,7 +15,7 @@ export default class AppContainer extends React.Component {
     }
 
     showToast(content) {
-        ToastAndroid.show(content, ToastAndroid.LONG, ToastAndroid.CENTER);
+        ToastAndroid.show(content, ToastAndroid.LONG, ToastAndroid.TOP);
     }
 
     //页面跳转-前进

@@ -35,6 +35,7 @@ export default class ScanPage extends AppContainer {
     };
 
     componentWillMount() {
+        this.showToast('123')
     }
 
     onBarCodeReadCallback(result) {
