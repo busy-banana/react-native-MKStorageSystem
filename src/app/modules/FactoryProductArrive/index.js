@@ -2,6 +2,7 @@ import React from 'react';
 import {
     View,
     Text,
+    StyleSheet,
 } from 'react-native';
 import AppContainer from '../../modules/AppContainer';
 
@@ -36,7 +37,12 @@ export default class FactoryProductArrive extends AppContainer {
     
         return (
             <View>
+                
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+
+});
