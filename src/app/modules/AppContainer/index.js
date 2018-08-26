@@ -18,7 +18,7 @@ export default class AppContainer extends React.Component {
         ToastAndroid.show(content, ToastAndroid.LONG, ToastAndroid.TOP);
     }
 
-    //页面跳转-前进
+    //页面跳转-前进 存储stack
     forward(path, params) {
         let pa = {};
         if (params && Object.keys(params).length != 0) {
@@ -27,7 +27,16 @@ export default class AppContainer extends React.Component {
         this.props.navigation.navigate(path, pa);
     }
 
-    //页面跳转-后退
+    //页面跳转-前进  替换当前stack
+    replace(path, params) {
+        let pa = {};
+        if (params && Object.keys(params).length != 0) {
+            Object.assign(pa, params);
+        }
+        this.props.navigation.replace(path, pa);
+    }
+
+    //页面跳转-后退 
     goBack() {
         this.props.navigation.goBack();
     }

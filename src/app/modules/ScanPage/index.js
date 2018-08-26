@@ -58,8 +58,8 @@ export default class ScanPage extends AppContainer {
             Alert.alert(
                 '请确认条码是否正确', result.data,
                 [
-                    {text: '重新扫描', onPress: this.restartScan},
-                    {text: '确定', onPress: this.confirmScan},
+                    {text: '重新扫描', onPress: () => this.restartScan()},
+                    {text: '确定', onPress: () => this.confirmScan(result)},
                 ],
                 { cancelable: false }
             );
@@ -67,7 +67,7 @@ export default class ScanPage extends AppContainer {
     }
 
     //确认扫描结果正确
-    confirmScan() {
+    confirmScan(result) {
         if (this.data.nextPath == 'FactoryProductArrive') {
             this.forward('FactoryProductArrive')
         } else {

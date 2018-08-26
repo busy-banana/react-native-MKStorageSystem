@@ -58,10 +58,9 @@ export default class Login extends AppContainer {
         } else if (this.state.password != '123456') {
             this.showToast('密码错误');            
         } else {
-            this.forward('Home',
-                {
-                    userName: this.state.userName
-                });
+            this.replace('Home',{
+                userName: this.state.userName
+            });
         }
     }
 

@@ -20,7 +20,7 @@ const RootStack = createStackNavigator({
     screen: FactoryProductArrive,
   },
   }, {
-    initialRouteName: 'FactoryProductArrive',
+    initialRouteName: 'Login',
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#fc0',
