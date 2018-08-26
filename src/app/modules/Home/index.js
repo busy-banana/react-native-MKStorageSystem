@@ -29,7 +29,6 @@ export default class Home extends AppContainer {
         };
         
         ['pressListCallback',
-            'viewUserInfo',
             'openControlPanel',
             'closeControlPanel',
             'switchDrawerStatus',
@@ -52,8 +51,8 @@ export default class Home extends AppContainer {
         this.data.userName = params.userName || 'test';
     }
 
-    pressListCallback(path) {
-        if (path == 'Login') {
+    pressListCallback(item) {
+        if (item.path == 'Login') {
             const resetAction = StackActions.reset({
                 index: 0,
                 actions: [
@@ -62,12 +61,8 @@ export default class Home extends AppContainer {
             });
             this.props.navigation.dispatch(resetAction);
         } else {
-            this.forward(path);
+            this.forward(item.path, {nextPath: item.nextPath});
         }
-    }
-
-    viewUserInfo() {
-        
     }
 
     //关闭左侧抽屉
@@ -94,23 +89,28 @@ export default class Home extends AppContainer {
         const homeList = [
             {
                 title: '工厂成品到货',
-                forwardPath: 'ScanPage',
+                path: 'ScanPage',
+                nextPath: 'FactoryProductArrive'
             },
             {
                 title: 'RDC退货',
-                forwardPath: 'ScanPage',
+                path: 'ScanPage',
+                nextPath: '',
             },
             {
                 title: '包材收货',
-                forwardPath: 'ScanPage',
+                path: 'ScanPage',
+                nextPath: '',
             },
             {
                 title: 'OEM',
-                forwardPath: 'ScanPage',
+                path: 'ScanPage',
+                nextPath: '',
             },
             {
                 title: '原料收货',
-                forwardPath: 'ScanPage',
+                path: 'ScanPage',
+                nextPath: '',
             },
         ];
         //主页列表
@@ -119,7 +119,7 @@ export default class Home extends AppContainer {
                 key={item.title}
                 title={item.title}
                 chevron
-                onPress={() => this.pressListCallback(item.forwardPath)}
+                onPress={() => this.pressListCallback(item)}
                 containerStyle={styles.containerStyle}
                 contentContainerStyle={styles.contentContainerStyle}
             />
@@ -127,17 +127,17 @@ export default class Home extends AppContainer {
         const drawerList = [
             {
                 title: '设置',
-                forwardPath: '',
+                path: '',
                 leftIcon: <Feather name='settings' size={18} />,
             },
             {
                 title: '个人信息',
-                forwardPath: '',
+                path: '',
                 leftIcon: <Feather name='user' size={18} />,
             },
             {
                 title: '退出登录',
-                forwardPath: 'Login',
+                path: 'Login',
                 leftIcon: <Feather name='log-out' size={18} />,
             }
         ];
@@ -146,7 +146,7 @@ export default class Home extends AppContainer {
             <ListItem
                 key={item.title}
                 title={item.title}
-                onPress={() => this.pressListCallback(item.forwardPath)}
+                onPress={() => this.pressListCallback(item)}
                 leftIcon={item.leftIcon}
             />
         ));

@@ -20,13 +20,18 @@ export default class ScanPage extends AppContainer {
     constructor(props) {
         super(props);
 
+        this.data = {};
         this.state = {
             scannerStatus: true,
             flashStatus: false,
             scanResultCode: '',
         };
         
-        ['onBarCodeReadCallback','changeFlashStatus'].forEach((method) => {
+        ['onBarCodeReadCallback',
+            'changeFlashStatus',
+            'confirmScan',
+            'restartScan',
+        ].forEach((method) => {
             this[method] = this[method].bind(this);
         });
     }
@@ -36,22 +41,46 @@ export default class ScanPage extends AppContainer {
     };
 
     componentWillMount() {
+        this.getInitData();
     }
 
+    getInitData() {
+        const params = this.getParam() || {};
+        this.data.nextPath = params.nextPath;
+    }
+
+    //扫码成功回调函数
     onBarCodeReadCallback(result) {
         if (result.data) {
             this.setState({
                 scannerStatus: false
-            })
+            });
             Alert.alert(
                 '请确认条码是否正确', result.data,
                 [
-                    {text: '重新扫描', onPress: () => this.setState({scannerStatus: true})},
-                    {text: '确定', onPress: () => this.setState({scanResultCode: result.data,scannerStatus: true,})},
+                    {text: '重新扫描', onPress: this.restartScan},
+                    {text: '确定', onPress: this.confirmScan},
                 ],
                 { cancelable: false }
             );
         }
+    }
+
+    //确认扫描结果正确
+    confirmScan() {
+        if (this.data.nextPath == 'FactoryProductArrive') {
+            this.forward('FactoryProductArrive')
+        } else {
+            this.setState({
+                scanResultCode: result.data,
+                scannerStatus: true
+            });
+        }
+    }
+
+    //扫描有误，重新扫描
+    restartScan() {
+        this.setState({scannerStatus: true})
     }
 
     changeFlashStatus() {

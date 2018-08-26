@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 import Login from './modules/Login';
 import ScanPage from './modules/ScanPage';
 import Home from './modules/Home';
+import FactoryProductArrive from './modules/FactoryProductArrive';
 
 const RootStack = createStackNavigator({
   Login: {
@@ -15,8 +16,11 @@ const RootStack = createStackNavigator({
   Home: {
     screen: Home,
   },
+  FactoryProductArrive: {
+    screen: FactoryProductArrive,
+  },
   }, {
-    initialRouteName: 'ScanPage',
+    initialRouteName: 'FactoryProductArrive',
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#fc0',
