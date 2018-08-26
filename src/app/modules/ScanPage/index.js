@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     StyleSheet,
     Dimensions,
+    Alert,
 } from 'react-native';
 const {
     width,
@@ -20,8 +21,9 @@ export default class ScanPage extends AppContainer {
         super(props);
 
         this.state = {
-            // scannerRunning: false,
+            scannerStatus: true,
             flashStatus: false,
+            scanResultCode: '',
         };
         
         ['onBarCodeReadCallback','changeFlashStatus'].forEach((method) => {
@@ -37,7 +39,19 @@ export default class ScanPage extends AppContainer {
     }
 
     onBarCodeReadCallback(result) {
-        console.log(result)
+        if (result.data) {
+            this.setState({
+                scannerStatus: false
+            })
+            Alert.alert(
+                '请确认条码是否正确', result.data,
+                [
+                    {text: '重新扫描', onPress: () => this.setState({scannerStatus: true})},
+                    {text: '确定', onPress: () => this.setState({scanResultCode: result.data,scannerStatus: true,})},
+                ],
+                { cancelable: false }
+            );
+        }
     }
 
     changeFlashStatus() {
@@ -54,6 +68,11 @@ export default class ScanPage extends AppContainer {
         //         <Text>准备中，请确认已开启摄像头权限。</Text>
         //     </View>
         // );
+        const {
+            scanResultCode,
+            flashStatus,
+            scannerStatus,
+        } = this.state;
 
         return (
             <View style={styles.container}>
@@ -62,9 +81,9 @@ export default class ScanPage extends AppContainer {
                         this.camera = ref;
                     }}
                     style={styles.RNCamera}
-                    flashMode={this.state.flashStatus ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
+                    flashMode={flashStatus ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
                     // barCodeTypes={[RNCamera.Constants.BarCodeType.ean13]}
-                    onBarCodeRead={this.onBarCodeReadCallback}
+                    onBarCodeRead={scannerStatus ? this.onBarCodeReadCallback : null}
                     // ratio={}
                     // barcodeScannerEnabled={true}
                     // aspect={Camera.constants.Aspect.fill}
@@ -115,17 +134,24 @@ const styles = StyleSheet.create({
     },
     topContainer: {
         width: width,
-        height: 80,
+        height: 50,
         backgroundColor:'rgba(0,0,0,0.5)',
+    },
+    bottomContainer: {
+        width: width,
+        height: height-width-50,
+        backgroundColor:'rgba(0,0,0,0.5)',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
     },
     boxBetweenRectangle: {
         backgroundColor:'rgba(0,0,0,0.5)',
-        width: 55,
-        height: width-60,
+        width: 90,
+        height: width,
     },
     rectangleContainer: {
-        width: width-60,
-        height: width-60,
+        width: width-180,
+        height: width,
         backgroundColor: 'transparent',
     },
     rectangleTopLeft: {
@@ -164,13 +190,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 0,
         bottom: 0
-    },
-    bottomContainer: {
-        width: width,
-        height: height-width+60-80,
-        backgroundColor:'rgba(0,0,0,0.5)',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
     },
     text: {
         fontSize: 14,

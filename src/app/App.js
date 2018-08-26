@@ -16,7 +16,7 @@ const RootStack = createStackNavigator({
     screen: Home,
   },
   }, {
-    initialRouteName: 'Login',
+    initialRouteName: 'ScanPage',
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#fc0',
