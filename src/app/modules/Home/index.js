@@ -13,7 +13,9 @@ import Feather from 'react-native-vector-icons/Feather';
 import {
     ListItem,
     Button,
+    Avatar,
 } from 'react-native-elements';
+import { StackActions, NavigationActions } from 'react-navigation';
 import Drawer from 'react-native-drawer';
 import DHLLogo from '../../public/dhlLogo.png';
 
@@ -23,12 +25,14 @@ export default class Home extends AppContainer {
 
         this.data = {};
         this.state = {
+            drawerStatus: false, //左侧抽屉开关控制
         };
         
         ['pressListCallback',
             'viewUserInfo',
             'openControlPanel',
             'closeControlPanel',
+            'switchDrawerStatus',
         ].forEach((method) => {
             this[method] = this[method].bind(this);
         });
@@ -49,7 +53,17 @@ export default class Home extends AppContainer {
     }
 
     pressListCallback(path) {
-        this.forward(path);
+        if (path == 'Login') {
+            const resetAction = StackActions.reset({
+                index: 0,
+                actions: [
+                    NavigationActions.navigate({routeName:'Login'})
+                ]
+            });
+            this.props.navigation.dispatch(resetAction);
+        } else {
+            this.forward(path);
+        }
     }
 
     viewUserInfo() {
@@ -66,7 +80,17 @@ export default class Home extends AppContainer {
         this._drawer.open()
     };
 
+    //控制抽屉开关状态
+    switchDrawerStatus() {
+        this.setState({
+            drawerStatus: !this.state.drawerStatus
+        })
+    }
+
     render() {
+        const {
+            drawerStatus
+        } = this.state;
         const homeList = [
             {
                 title: '工厂成品到货',
@@ -113,7 +137,7 @@ export default class Home extends AppContainer {
             },
             {
                 title: '退出登录',
-                forwardPath: '',
+                forwardPath: 'Login',
                 leftIcon: <Feather name='log-out' size={18} />,
             }
         ];
@@ -123,28 +147,31 @@ export default class Home extends AppContainer {
                 key={item.title}
                 title={item.title}
                 onPress={() => this.pressListCallback(item.forwardPath)}
-                containerStyle={styles.containerStyle}
-                contentContainerStyle={styles.contentContainerStyle}
                 leftIcon={item.leftIcon}
             />
         ));
-        const drawerPanel = (
-            <View style={styles.drawerPanel}>
-                <View style={{height: 160,backgroundColor: '#fc0'}}>
-                <Image
-                    source={DHLLogo}
-                    style={styles.DHLLogo}
-                /></View>
+        const drawerPanel = drawerStatus ? (
+            <View style={styles.drawerPanelContainer}>
+                <View style={styles.drawerPanelTop}>
+                    <Avatar
+                        size="medium"
+                        source={DHLLogo}
+                        rounded
+                        activeOpacity={0.7}
+                        imageProps={{resizeMode:'contain'}}
+                        containerStyle={{backgroundColor: "#fcfcfc"}}
+                    />
+                    <Text style={styles.userName}>{this.data.userName}</Text>
+                </View>
                 
-                <Text>{this.data.userName}</Text>
                 {drawerListDOM}
             </View>
-        );
+        ) : null;
 
         return (
             <View style={styles.container}>
             <Drawer
-                ref={(ref) => this._drawer = ref}
+                // ref={(ref) => this._drawer = ref}
                 type="static"
                 content={drawerPanel}
                 openDrawerOffset={0.3}
@@ -153,12 +180,14 @@ export default class Home extends AppContainer {
                 tweenHandler={(ratio) => ({
                     main: { opacity:(2-ratio)/2 }
                 })}
+                onCloseStart={this.switchDrawerStatus}
+                open={drawerStatus}
             >
                 <View style={styles.titleContainer}>
-                <TouchableOpacity onPress={this.openControlPanel}>
-                    <Icon name="user" color="#515151" size={22}/>
-                </TouchableOpacity>
-                    <Text style={{fontSize: 22,color: '#d40511'}}>RFID收货管理系统</Text>
+                    <TouchableOpacity onPress={this.switchDrawerStatus} style={styles.userLogo}>
+                        <Icon name="user" color="#515151" size={22}/>
+                    </TouchableOpacity>
+                    <Text style={{fontSize: 22,color: '#d40511',marginRight: 80,fontWeight: 'bold'}}>RFID收货管理系统</Text>
                     <Text></Text>
                 </View>
 
@@ -208,12 +237,34 @@ const styles = StyleSheet.create({
     drawerStyles: {
 
     },
-    drawerPanel: {
+    drawerPanelContainer: {
         flex:1,
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
     },
     DHLLogo: {
         marginBottom: 50,
     },
+    userLogo: {
+        width: 80,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    drawerPanelTop: {
+        height: 100,
+        backgroundColor: '#fc0',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flexDirection: 'row',
+        paddingTop: 20,
+        paddingLeft: 20,
+        marginBottom: 40
+    },
+    userName: {
+        color: '#d40511',
+        fontSize: 20,
+        fontWeight: '400',
+        marginLeft:15
+    }
 });

@@ -5,15 +5,12 @@ import {
     StyleSheet,
     Image,
     Dimensions,
-    findNodeHandle,
 } from 'react-native';
 import AppContainer from '../../modules/AppContainer';
 import DHLLogo from '../../public/dhlLogo.png';
 import loginBackground from '../../public/loginBackground.png';
-import { BlurView } from 'react-native-blur';
 import {
     Button,
-    Avatar,
     Input,
 } from 'react-native-elements';
 const {
@@ -28,7 +25,6 @@ export default class Login extends AppContainer {
         this.state = {
             userName: '',
             password: '',
-            viewRef: null
         };
         
         ['clickLoginBtn',
@@ -42,6 +38,15 @@ export default class Login extends AppContainer {
     static navigationOptions = {
         header:null,
     };
+
+    componentWillMount() {
+        this.initApp();
+    }
+
+    //初始化app
+    initApp() {
+        
+    }
 
     clickLoginBtn() {
         if (!this.state.userName) {
@@ -74,25 +79,13 @@ export default class Login extends AppContainer {
         });
     }
 
-    //背景图加载完成获取dom节点添加高斯模糊效果
-    imageLoaded() {
-        this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
-    }
-
     render() {
         return (
             <View style={styles.container}>
                 <Image
                     style={styles.loginBackground}
                     source={loginBackground}
-                    onLoadEnd={this.imageLoaded.bind(this)}
-                    ref={(img) => { this.backgroundImage = img}}
-                />
-                <BlurView
-                    style={styles.loginBackground}
-                    viewRef={this.state.viewRef}
-                    blurType="light"
-                    blurAmount={12}
+                    blurRadius={3}
                 />
                 <View style={styles.loginContainer}>
                     <Image
@@ -127,9 +120,9 @@ export default class Login extends AppContainer {
                         onPress={this.clickLoginBtn}
                         buttonStyle={styles.loginButtonStyle}
                     />
+                    {/* <Text style={styles.bottomTips}>v1.0.0</Text> */}
+                    {/* <Text style={styles.bottomTips}>Copyright © 2018</Text> */}
                 </View>
-                {/* <Text>v1.0.0</Text>
-                <Text>Copyright © 2018</Text> */}
             </View>
         )
     }
@@ -182,5 +175,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#d40511',
         marginTop: 100,
         width: width*0.8,
+        height:50,
+    },
+    bottomTips: {
+        color: '#737373',
     }
 });
