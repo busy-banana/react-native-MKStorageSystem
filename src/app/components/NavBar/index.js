@@ -1,7 +1,14 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { 
+    View,
+    Text,
+    TouchableOpacity,
+    StyleSheet,
+} from 'react-native';
+import {
+    Icon
+} from 'react-native-elements';
 import AppContainer from '../../modules/AppContainer';
-import ScanPng from '../../public/scan.png';
 
 export default class NavBar extends AppContainer {
     constructor(props) {
