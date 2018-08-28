@@ -61,7 +61,8 @@ export default class Home extends AppContainer {
             });
             this.props.navigation.dispatch(resetAction);
         } else {
-            this.forward(item.path, {nextPath: item.nextPath});
+            this.forward('FactoryProductArrive', item);
+            // this.forward(item.path, item);
         }
     }
 
@@ -90,7 +91,8 @@ export default class Home extends AppContainer {
             {
                 title: '工厂成品到货',
                 path: 'ScanPage',
-                nextPath: 'FactoryProductArrive'
+                nextPath: 'FactoryProductArrive',
+                scanTitle: '扫描ASN码',
             },
             {
                 title: 'RDC退货',
@@ -250,6 +252,7 @@ const styles = StyleSheet.create({
         height: 60,
         justifyContent: 'center',
         alignItems: 'center',
+        paddingRight: 30
     },
     drawerPanelTop: {
         height: 100,

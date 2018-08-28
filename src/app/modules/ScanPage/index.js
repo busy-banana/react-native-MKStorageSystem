@@ -3,6 +3,7 @@ import AppContainer from '../../modules/AppContainer';
 import { RNCamera } from 'react-native-camera';
 import Camera from 'react-native-camera';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ScanLine from '../../public/scan_line.png';
 import {
     View,
     Text,
@@ -10,6 +11,9 @@ import {
     StyleSheet,
     Dimensions,
     Alert,
+    Animated,
+    Image,
+    Easing,
 } from 'react-native';
 const {
     width,
@@ -25,6 +29,7 @@ export default class ScanPage extends AppContainer {
             scannerStatus: true,
             flashStatus: false,
             scanResultCode: '',
+            scanLineHeight: new Animated.Value(5), //扫描线动画高度初始值
         };
         
         ['onBarCodeReadCallback',
@@ -36,9 +41,11 @@ export default class ScanPage extends AppContainer {
         });
     }
 
-    static navigationOptions = {
-        title: '扫一扫',
-    };
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: navigation.getParam('scanTitle', '扫一扫'),
+        }
+    }
 
     componentWillMount() {
         this.getInitData();
@@ -47,6 +54,29 @@ export default class ScanPage extends AppContainer {
     getInitData() {
         const params = this.getParam() || {};
         this.data.nextPath = params.nextPath;
+    }
+
+    componentDidMount() {
+        this.startScanLineAnimated();
+    }
+
+    //启动扫描线动画
+    startScanLineAnimated() {
+        if (this.state.scannerStatus) {
+            Animated.timing(
+                this.state.scanLineHeight,
+                {
+                toValue: width-85,
+                duration: 2000,
+                easing: Easing.linear,
+                }
+            ).start(() => {
+                this.state.scanLineHeight.setValue(5)
+                this.startScanLineAnimated();
+            });
+        } else {
+            return;
+        }
     }
 
     //扫码成功回调函数
@@ -69,7 +99,7 @@ export default class ScanPage extends AppContainer {
     //确认扫描结果正确
     confirmScan(result) {
         if (this.data.nextPath == 'FactoryProductArrive') {
-            this.forward('FactoryProductArrive')
+            this.replace('FactoryProductArrive')
         } else {
             this.setState({
                 scanResultCode: result.data,
@@ -101,6 +131,7 @@ export default class ScanPage extends AppContainer {
             scanResultCode,
             flashStatus,
             scannerStatus,
+            scanLineHeight,
         } = this.state;
 
         return (
@@ -125,6 +156,9 @@ export default class ScanPage extends AppContainer {
                             <View style={styles.boxBetweenRectangle}></View>
 
                             <View style={styles.rectangleContainer}>
+                                <Animated.View style={{position: 'absolute',top: scanLineHeight}}>
+                                    <Image source = {ScanLine} style={{width: width-80}}/>
+                                </Animated.View>
                                 <View style={styles.rectangleTopLeft}></View>
                                 <View style={styles.rectangleTopRight}></View>
                                 <View style={styles.rectangleBottomLeft}></View>
@@ -163,24 +197,24 @@ const styles = StyleSheet.create({
     },
     topContainer: {
         width: width,
-        height: 50,
+        height: 100,
         backgroundColor:'rgba(0,0,0,0.5)',
     },
     bottomContainer: {
         width: width,
-        height: height-width-50,
+        height: height-width+80-50,
         backgroundColor:'rgba(0,0,0,0.5)',
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
     boxBetweenRectangle: {
         backgroundColor:'rgba(0,0,0,0.5)',
-        width: 90,
-        height: width,
+        width: 40,
+        height: width-80,
     },
     rectangleContainer: {
-        width: width-180,
-        height: width,
+        width: width-80,
+        height: width-80,
         backgroundColor: 'transparent',
     },
     rectangleTopLeft: {
@@ -236,5 +270,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    
+    scanLineAnimated: {
+
+    }
 });
