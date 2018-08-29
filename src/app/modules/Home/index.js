@@ -61,8 +61,8 @@ export default class Home extends AppContainer {
             });
             this.props.navigation.dispatch(resetAction);
         } else {
-            this.forward('FactoryProductArrive', item);
-            // this.forward(item.path, item);
+            // this.forward('FactoryProductArrive', item);
+            this.forward(item.path, item);
         }
     }
 

@@ -111,6 +111,7 @@ export default class ScanPage extends AppContainer {
     //扫描有误，重新扫描
     restartScan() {
         this.setState({scannerStatus: true})
+        this.startScanLineAnimated();
     }
 
     changeFlashStatus() {

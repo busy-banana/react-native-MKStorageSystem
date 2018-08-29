@@ -8,3 +8,10 @@ In your gradle.properties file add following lines:
 classpath 'com.android.tools.build:gradle:3.0.0'
 distributionUrl=https://services.gradle.org/distributions/gradle-4.1-all.zip
 android.enableAapt2=false
+
+
+统一ui:
+背景黄色: #fc0
+按钮背景: #d40511
+subTitle: #969696
+title: #333
