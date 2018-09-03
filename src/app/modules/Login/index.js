@@ -23,8 +23,8 @@ export default class Login extends AppContainer {
         super(props);
 
         this.state = {
-            userName: '',
-            password: '',
+            userName: 'admin',
+            password: '123456',
         };
         
         ['clickLoginBtn',
@@ -92,7 +92,8 @@ export default class Login extends AppContainer {
                         style={styles.DHLLogo}
                     />
                     <Input
-                        placeholder='请输入用户名'
+                        // placeholder='请输入用户名'
+                        placeholder='admin'
                         onChangeText={this.onChangeUserName}
                         containerStyle={styles.containerStyle}
                         inputContainerStyle={styles.inputContainerStyle}
@@ -103,7 +104,8 @@ export default class Login extends AppContainer {
                         }
                     />
                     <Input
-                        placeholder='请输入密码'
+                        // placeholder='请输入密码'
+                        placeholder='******'
                         onChangeText={this.onChangePwd}
                         containerStyle={styles.containerStyle}
                         inputStyle={styles.inputStyle}

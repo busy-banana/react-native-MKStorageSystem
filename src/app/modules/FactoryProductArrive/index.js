@@ -91,7 +91,7 @@ export default class FactoryProductArrive extends AppContainer {
     //生成LPN列表
     getLPNList() {
         // const readyReceiveNum = this.data.ASNResult.readyReceiveNum;
-        const readyReceiveNum = 6;
+        const readyReceiveNum = 3;
         // const {
         //     LPNCodeArr,
         //     LPNPlaceArr,
@@ -106,16 +106,17 @@ export default class FactoryProductArrive extends AppContainer {
             return (
                 <ListItem
                     key={'LPNList-'+i}
-                    title={LPNCodeArr[i] || '待扫描'}
-                    subtitle='(PalletLPN码)'
-                    rightTitle={LPNPlaceArr[i] || '待分配'}
-                    rightSubtitle='(库位)'
+                    title={LPNCodeArr[i]}
+                    // subtitle='(PalletLPN码)'
+                    // rightTitle={LPNPlaceArr[i] || '待分配'}
+                    // rightSubtitle='(库位)'
                     onPress={() => this.clickLPNListCallBack(i)}
-                    containerStyle={{height: 60}}
+                    onLongPress={() => {}}
+                    containerStyle={{height: 40}}
                     titleStyle={styles.LPNListTitle}
                     rightTitleStyle={styles.LPNListTitle}
-                    subtitleStyle={styles.LPNListSubtitle}
-                    rightSubtitleStyle={styles.LPNListSubtitle}
+                    // subtitleStyle={styles.LPNListSubtitle}
+                    // rightSubtitleStyle={styles.LPNListSubtitle}
                     // contentContainerStyle={r{color: 'red'}}
                     // rightContentContainerStyle={{color: 'red'}}
                 />
@@ -139,27 +140,13 @@ export default class FactoryProductArrive extends AppContainer {
                         titleStyle={styles.LPNListTitle}
                         rightTitleStyle={styles.LPNListTitle}
                         subtitleStyle={styles.LPNListSubtitle}
+                        containerStyle={{height: 40}}
                     />
                 </View>
                 <ScrollView>
                     <Text style={{fontSize: 15, color: '#969696', textAlign: 'center'}}>PalletLPN列表</Text>
                     {LPNListDOM}
                     <View style={styles.bottomBtn}>
-                        <Button
-                            title="库位分配"
-                            buttonStyle={{
-                                backgroundColor: "#d40511",
-                                height: 45,
-                                width: 20,
-                                borderColor: '#fff',
-                                borderRightWidth: 2,
-                                borderStyle: 'solid',
-                                width: width/3-2,
-                                borderRadius: 0
-                            }}
-                            titleStyle={{fontSize: 14}}
-                            onPress={this.distributePlace}
-                        />
                         <Button
                             title="扫描查询"
                             buttonStyle={{

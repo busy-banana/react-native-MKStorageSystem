@@ -9,6 +9,14 @@ classpath 'com.android.tools.build:gradle:3.0.0'
 distributionUrl=https://services.gradle.org/distributions/gradle-4.1-all.zip
 android.enableAapt2=false
 
+Could not resolve all files for configuration ':react-native-vector-icons:classpath'.
+> Could not resolve com.android.tools.build:gradle:2.3.+.
+在react-native-vector-icons/build.gradle添加：
+maven {
+      url 'https://maven.google.com/'
+      name 'Google'
+    }
+
 
 统一ui:
 背景黄色: #fc0
